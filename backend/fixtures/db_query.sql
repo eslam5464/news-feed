@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `username` varchar(50) UNIQUE NOT NULL,
   `email` varchar(100) UNIQUE,
-  `password` varchar(500) UNIQUE NOT NULL,
+  `password` varchar(500) NOT NULL,
   `date_of_birth` date,
   `is_active` bool NOT NULL,
   `creation_timestamp` timestamp NOT NULL
