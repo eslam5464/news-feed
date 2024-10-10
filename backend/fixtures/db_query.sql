@@ -1,6 +1,6 @@
-CREATE database IF NOT EXISTS flask_task;
+CREATE database IF NOT EXISTS news_feed;
 
-USE flask_task;
+USE news_feed;
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
