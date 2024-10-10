@@ -22,6 +22,11 @@ class Settings(BaseSettings):
     app_version: str = PYPROJECT_CONTENT["version"]
     app_description: str = PYPROJECT_CONTENT["description"]
 
+    # backend variables
+    host: str = os.getenv("BACKEND_HOST")
+    port: int = os.getenv("BACKEND_PORT")
+    debug: bool = os.getenv("DEBUG")
+
     # mysql variables
     db_host: str = os.getenv("MYSQL_HOST")
     db_port: int = os.getenv("MYSQL_PORT")
