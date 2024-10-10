@@ -6,10 +6,12 @@ from pydantic import ValidationError
 from win32ctypes.pywin32.pywintypes import datetime
 
 from app import repos, schemas
+from app.db import get_db
 
 
 def get_all_users():
-    users_db = repos.User.get_all()
+    conn = get_db()
+    users_db = repos.User(conn).get_all()
     all_users = [
         user_entry.model_dump()
         for user_entry
@@ -20,7 +22,8 @@ def get_all_users():
 
 
 def get_user(user_id: int):
-    user_db = repos.User.get_one(user_id)
+    conn = get_db()
+    user_db = repos.User(conn).get_one(user_id)
 
     if not user_db:
         return jsonify({'message': 'User not found'}), 404
@@ -29,17 +32,19 @@ def get_user(user_id: int):
 
 
 def add_user(user_data: Any):
+    conn = get_db()
+
     try:
         user_in = schemas.UserCreateIn.model_validate(user_data)
     except ValidationError as e:
         return jsonify({'error': str(e)}), 400
 
-    user_db = repos.User.get_one_by_username(user_in.username)
+    user_db = repos.User(conn).get_one_by_username(user_in.username)
 
     if user_db:
         return jsonify({'message': 'Username already exists'}), 400
 
-    user_db = repos.User.get_one_by_email(user_in.email)
+    user_db = repos.User(conn).get_one_by_email(user_in.email)
 
     if user_db:
         return jsonify({'message': 'Email already exists'}), 400
@@ -49,6 +54,6 @@ def add_user(user_data: Any):
         is_active=True,
         creation_timestamp=datetime.now(UTC).replace(tzinfo=None)
     )
-    user_id = repos.User.create(user_new)
+    user_id = repos.User(conn).create(user_new)
 
     return jsonify({'message': 'User created', 'id': user_id}), 201
