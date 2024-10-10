@@ -15,6 +15,8 @@ flask-bcrypt = "^1.0.1"
 pydantic = {extras = ["email"], version = "^2.9.2"}
 flask-wtf = "^1.2.1"
 wtforms = "^3.1.2"
+faker = "^30.3.0"
+pytest = "^8.3.3"
 
 
 [build-system]

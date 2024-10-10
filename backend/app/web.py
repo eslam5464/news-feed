@@ -1,6 +1,7 @@
-from flask import Flask
+from flask import Flask, g
 
 from app.config import settings
+from app.db import get_db
 
 from app.routes import user
 
@@ -10,5 +11,16 @@ def create_app(config_class=settings):
     app.config.from_object(config_class)
 
     app.register_blueprint(user)
+
+    @app.before_request
+    def setup_db():
+        g.db = get_db()
+
+    @app.teardown_appcontext
+    def close_db(exception):
+        db = g.pop('db', None)
+
+        if db is not None:
+            db.close()
 
     return app
