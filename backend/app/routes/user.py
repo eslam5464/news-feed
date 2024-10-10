@@ -1,6 +1,6 @@
-from flask import Blueprint, request
+from flask import Blueprint
 
-from app.deps.user import get_all_users, get_user, add_user
+from app.deps.user import get_all_users, get_user
 
 user = Blueprint('users', __name__)
 
@@ -13,8 +13,3 @@ def all_users():
 @user.route("/user/<int:user_id>", methods=['GET'])
 def get_one_user(user_id: int):
     return get_user(user_id)
-
-
-@user.route("/user", methods=['POST'])
-def create_user():
-    return add_user(request.json)
