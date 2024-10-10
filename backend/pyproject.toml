@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "flask-task"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "~3.12"
+flask = "^3.0.3"
+mysql-connector-python = "^9.0.0"
+pydantic-settings = "^2.5.2"
+flask-login = "^0.6.3"
+flask-bcrypt = "^1.0.1"
+pydantic = "^2.9.2"
+flask-wtf = "^1.2.1"
+wtforms = "^3.1.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
