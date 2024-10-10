@@ -1,11 +1,13 @@
 from datetime import datetime, date
 
+from pydantic import EmailStr
+
 from app.schemas.base import BaseSchema
 
 
 class UserBase(BaseSchema):
     username: str
-    email: str
+    email: EmailStr
     password: str
     date_of_birth: date
     is_active: bool
@@ -13,7 +15,10 @@ class UserBase(BaseSchema):
 
 
 class UserCreateIn(BaseSchema):
-    pass
+    username: str
+    email: EmailStr
+    password: str
+    date_of_birth: date
 
 
 class UserCreate(UserBase):
