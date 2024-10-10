@@ -1,16 +1,15 @@
-import mysql.connector
+from mysql.connector.abstracts import MySQLConnectionAbstract
+from mysql.connector.pooling import PooledMySQLConnection
 
 from app import schemas
 
-from app.config import settings
-
 
 class User:
-    @staticmethod
-    def create(user_in: schemas.UserCreate) -> int:
-        conn = mysql.connector.connect(**settings.database_config)
-        cursor = conn.cursor()
+    def __init__(self, conn: PooledMySQLConnection | MySQLConnectionAbstract) -> None:
+        self.conn = conn
 
+    def create(self, user_in: schemas.UserCreate) -> int:
+        cursor = self.conn.cursor()
         query = (
             f"INSERT INTO user (username, password, email, date_of_birth, is_active, creation_timestamp) "
             f"VALUES ('{user_in.username}', '{user_in.password}', "
@@ -18,25 +17,21 @@ class User:
             f"{bool(user_in.is_active)}, '{user_in.creation_timestamp}')"
         )
         cursor.execute(query)
-        conn.commit()
+        self.conn.commit()
         user_id = cursor.lastrowid
 
         cursor.close()
-        conn.close()
 
         return user_id
 
-    @staticmethod
-    def get_one(user_id: int) -> schemas.User | None:
-        conn = mysql.connector.connect(**settings.database_config)
-        cursor = conn.cursor()
+    def get_one(self, user_id: int) -> schemas.User | None:
+        cursor = self.conn.cursor()
 
         query = f"SELECT * FROM user WHERE id = {user_id}"
         cursor.execute(query)
         user_db = cursor.fetchone()
 
         cursor.close()
-        conn.close()
 
         if not user_db:
             return None
@@ -51,17 +46,14 @@ class User:
             creation_timestamp=user_db[6],
         )
 
-    @staticmethod
-    def get_one_by_email(user_email: str) -> schemas.User | None:
-        conn = mysql.connector.connect(**settings.database_config)
-        cursor = conn.cursor()
+    def get_one_by_email(self, user_email: str) -> schemas.User | None:
+        cursor = self.conn.cursor()
 
         query = f"SELECT * FROM user WHERE email = '{user_email}'"
         cursor.execute(query)
         user_db = cursor.fetchone()
 
         cursor.close()
-        conn.close()
 
         if not user_db:
             return None
@@ -76,17 +68,14 @@ class User:
             creation_timestamp=user_db[6],
         )
 
-    @staticmethod
-    def get_one_by_username(user_username: str) -> schemas.User | None:
-        conn = mysql.connector.connect(**settings.database_config)
-        cursor = conn.cursor()
+    def get_one_by_username(self, user_username: str) -> schemas.User | None:
+        cursor = self.conn.cursor()
 
         query = f"SELECT * FROM user WHERE username = '{user_username}'"
         cursor.execute(query)
         user_db = cursor.fetchone()
 
         cursor.close()
-        conn.close()
 
         if not user_db:
             return None
@@ -100,17 +89,15 @@ class User:
             is_active=user_db[5],
             creation_timestamp=user_db[6],
         )
-    @staticmethod
-    def get_all() -> list[schemas.User]:
-        conn = mysql.connector.connect(**settings.database_config)
-        cursor = conn.cursor()
+
+    def get_all(self) -> list[schemas.User]:
+        cursor = self.conn.cursor()
 
         query = f"SELECT * FROM user"
         cursor.execute(query)
         users_db = cursor.fetchall()
 
         cursor.close()
-        conn.close()
 
         for user_entry in users_db:
             yield schemas.User(
