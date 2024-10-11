@@ -12,7 +12,7 @@ class Friend:
         cursor = self.conn.cursor()
 
         query = (
-            f"INSERT INTO Friend (user_id, friend_id, creation_timestamp) "
+            f"INSERT INTO friend (user_id, friend_id, creation_timestamp) "
             f"VALUES ('{user_in.user_id}', '{user_in.friend_id}', "
             f"'{user_in.creation_timestamp}')"
         )
@@ -24,10 +24,29 @@ class Friend:
 
         return user_id
 
-    def get_all_by_user_id(self,user_id: int) -> list[schemas.Friend]:
+    def get(self, user_id: int, friend_id: int):
         cursor = self.conn.cursor()
 
-        query = f"SELECT * FROM user WHERE user_id = {user_id}"
+        query = f"SELECT * FROM friend WHERE user_id = {user_id} and friend_id = {friend_id}"
+        cursor.execute(query)
+        friend_db = cursor.fetchone()
+
+        cursor.close()
+
+        if not friend_db:
+            return None
+
+        return schemas.Friend(
+            id=friend_db[0],
+            user_id=friend_db[1],
+            friend_id=friend_db[2],
+            creation_timestamp=friend_db[3],
+        )
+
+    def get_all_by_user_id(self, user_id: int) -> list[schemas.Friend]:
+        cursor = self.conn.cursor()
+
+        query = f"SELECT * FROM friend WHERE user_id = {user_id}"
         cursor.execute(query)
         friends_db = cursor.fetchall()
 
@@ -43,3 +62,14 @@ class Friend:
             for friend_entry
             in friends_db
         ]
+
+    def delete(self, user_id: int, friend_id: int):
+        cursor = self.conn.cursor()
+
+        query = f"DELETE FROM friend WHERE user_id = {user_id} AND friend_id = {friend_id}"
+        cursor.execute(query)
+
+        self.conn.commit()
+        cursor.close()
+
+        return None
