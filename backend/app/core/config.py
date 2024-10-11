@@ -5,7 +5,7 @@ from pathlib import Path
 from pydantic import computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-PROJECT_DIR = Path(__file__).parent.parent
+PROJECT_DIR = Path(__file__).parent.parent.parent
 
 with open(PROJECT_DIR / "pyproject.toml", "rb") as f:
     PYPROJECT_CONTENT = tomllib.load(f)["tool"]["poetry"]
