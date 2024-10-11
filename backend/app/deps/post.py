@@ -35,4 +35,4 @@ def get_post(post_id: int):
     if post_db is None:
         return jsonify({"message": "Post not found"}), status.HTTP_404_NOT_FOUND
 
-    return post_db.model_dump()
+    return post_db

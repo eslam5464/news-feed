@@ -59,4 +59,4 @@ def remove_friend(user_id: int, friend_id: int) -> tuple[Response, int] | None:
 
     repos.Friend(conn).delete(user_id, friend_id)
 
-    return jsonify({'message': 'Friend is removed'}), status.HTTP_200_OK
+    return jsonify({'message': 'Friend is removed'}), status.HTTP_410_GONE
