@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `creation_timestamp` timestamp NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS `like` (
+CREATE TABLE IF NOT EXISTS `likes` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `post_id` int NOT NULL,
   `user_id` int NOT NULL,
@@ -48,9 +48,9 @@ ALTER TABLE `comment` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`id`);
 
 ALTER TABLE `comment` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
-ALTER TABLE `like` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`id`);
+ALTER TABLE `likes` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`id`);
 
-ALTER TABLE `like` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+ALTER TABLE `likes` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 ALTER TABLE `friend` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 

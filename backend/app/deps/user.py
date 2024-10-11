@@ -37,7 +37,7 @@ def add_user(user_data: Any):
     try:
         user_in = schemas.UserCreateIn.model_validate(user_data)
     except ValidationError as e:
-        return jsonify({'error': str(e)}), 400
+        return jsonify({'error': str(e)}), status.HTTP_400_BAD_REQUEST
 
     user_db = repos.User(conn).get_one_by_username(user_in.username)
 
