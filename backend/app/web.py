@@ -3,7 +3,7 @@ from flask import Flask, g
 from app.config import settings
 from app.db import get_db
 
-from app.routes import user, auth
+from app.routes import user, auth, post
 
 
 def create_app(config_class=settings):
@@ -12,6 +12,7 @@ def create_app(config_class=settings):
 
     app.register_blueprint(user)
     app.register_blueprint(auth)
+    app.register_blueprint(post)
 
     @app.before_request
     def setup_db():
