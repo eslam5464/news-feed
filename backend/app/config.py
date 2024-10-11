@@ -22,6 +22,8 @@ class Settings(BaseSettings):
     app_version: str = PYPROJECT_CONTENT["version"]
     app_description: str = PYPROJECT_CONTENT["description"]
 
+    api_prefix: str = "/api"
+
     # backend variables
     host: str = os.getenv("BACKEND_HOST")
     port: int = os.getenv("BACKEND_PORT")

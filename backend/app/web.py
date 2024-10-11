@@ -3,16 +3,20 @@ from flask import Flask, g
 from app.config import settings
 from app.db import get_db
 
-from app.routes import user, auth, post
+from app.routes import (
+    user,
+    auth,
+    post,
+)
 
 
 def create_app(config_class=settings):
     app = Flask(settings.app_name)
     app.config.from_object(config_class)
 
-    app.register_blueprint(user)
-    app.register_blueprint(auth)
-    app.register_blueprint(post)
+    app.register_blueprint(user, url_prefix=settings.api_prefix)
+    app.register_blueprint(auth, url_prefix=settings.api_prefix)
+    app.register_blueprint(post, url_prefix=settings.api_prefix)
 
     @app.before_request
     def setup_db():
