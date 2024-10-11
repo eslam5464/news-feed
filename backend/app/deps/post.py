@@ -13,7 +13,7 @@ def create_post(post_data: Any):
     try:
         post_in = schemas.PostCreateIn.model_validate_json(post_data)
     except ValidationError as e:
-        return jsonify({'error': str(e)}), 400
+        return jsonify({'error': str(e)}), status.HTTP_400_BAD_REQUEST
 
     conn = get_db()
     date_now = datetime.now(UTC).replace(tzinfo=None)
@@ -26,3 +26,13 @@ def create_post(post_data: Any):
     )
 
     return jsonify({'message': 'Post created', 'id': post_id}), status.HTTP_201_CREATED
+
+
+def get_post(post_id: int):
+    conn = get_db()
+    post_db = repos.Post(conn).get_one(post_id)
+
+    if post_db is None:
+        return jsonify({"message": "Post not found"}), status.HTTP_404_NOT_FOUND
+
+    return post_db.model_dump()
