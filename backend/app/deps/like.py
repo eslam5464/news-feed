@@ -7,7 +7,7 @@ from pydantic import ValidationError
 from starlette import status
 
 from app import repos, schemas
-from app.db import get_db
+from app.core.db import get_db
 
 
 def like_post(post_id: int, like_data):

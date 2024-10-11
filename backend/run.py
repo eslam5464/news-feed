@@ -1,4 +1,4 @@
-from app.config import settings
+from app.core.config import settings
 from app.web import create_app
 
 app = create_app()

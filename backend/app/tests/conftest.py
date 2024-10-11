@@ -4,7 +4,7 @@ import mysql.connector
 import pytest
 
 from app import repos, schemas
-from app.config import settings
+from app.core.config import settings
 from app.tests.utils import generate_profile, random_password
 
 

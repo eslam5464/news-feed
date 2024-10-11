@@ -1,7 +1,7 @@
 from flask import Flask, g
 
-from app.config import settings
-from app.db import get_db
+from app.core.config import settings
+from app.core.db import get_db
 
 from app.routes import (
     user,
