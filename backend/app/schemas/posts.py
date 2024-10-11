@@ -11,7 +11,8 @@ class PostBase(BaseSchema):
 
 
 class PostCreateIn(BaseSchema):
-    pass
+    user_id: int
+    content: str
 
 
 class PostCreate(PostBase):

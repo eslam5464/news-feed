@@ -11,7 +11,9 @@ class CommentBase(BaseSchema):
 
 
 class CommentCreateIn(BaseSchema):
-    pass
+    post_id: int
+    user_id: int
+    content: str
 
 
 class CommentCreate(CommentBase):

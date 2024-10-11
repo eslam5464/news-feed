@@ -10,7 +10,8 @@ class FriendBase(BaseSchema):
 
 
 class FriendCreateIn(BaseSchema):
-    pass
+    user_id: int
+    friend_id: int
 
 
 class FriendCreate(FriendBase):

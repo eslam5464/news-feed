@@ -10,7 +10,8 @@ class LikeBase(BaseSchema):
 
 
 class LikeCreateIn(BaseSchema):
-    pass
+    post_id: int
+    user_id: int
 
 
 class LikeCreate(LikeBase):
