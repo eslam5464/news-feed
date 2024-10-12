@@ -1,17 +1,16 @@
 from datetime import datetime, UTC
 from typing import Any
 
-from flask import jsonify, Response
+from flask import jsonify, Response, g
 from pydantic import ValidationError
 from starlette import status
 
 from app import repos, schemas
-from app.core.db import get_db
 from app.deps.user import get_user
 
 
 def get_user_friends(user_id: int) -> list[dict[str, Any]]:
-    conn = get_db()
+    conn = g.db
     friends_db = repos.Friend(conn).get_all_by_user_id(user_id)
     all_friends = [
         friend_entry.model_dump()
@@ -23,7 +22,7 @@ def get_user_friends(user_id: int) -> list[dict[str, Any]]:
 
 
 def add_friend(user_id: int, friend_data: Any) -> tuple[Response, int]:
-    conn = get_db()
+    conn = g.db
     try:
         friend_in = schemas.FriendCreateIn(**friend_data, user_id=user_id)
     except ValidationError as e:
@@ -50,7 +49,7 @@ def remove_friend(user_id: int, friend_id: int) -> tuple[Response, int] | None:
 
     get_user(user_id)
     get_user(friend_id)
-    conn = get_db()
+    conn = g.db
 
     friend_db = repos.Friend(conn).get(user_id, friend_id)
 

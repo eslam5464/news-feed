@@ -1,16 +1,15 @@
 from datetime import UTC, datetime
 from typing import Any
 
-from flask import jsonify
+from flask import jsonify, g
 from pydantic import ValidationError
 from starlette import status
 
 from app import repos, schemas
-from app.core.db import get_db
 
 
 def get_all_users():
-    conn = get_db()
+    conn = g.db
     users_db = repos.User(conn).get_all()
     all_users = [
         user_entry.model_dump()
@@ -22,7 +21,7 @@ def get_all_users():
 
 
 def get_user(user_id: int):
-    conn = get_db()
+    conn = g.db
     user_db = repos.User(conn).get_one(user_id)
 
     if not user_db:
@@ -32,7 +31,7 @@ def get_user(user_id: int):
 
 
 def add_user(user_data: Any):
-    conn = get_db()
+    conn = g.db
 
     try:
         user_in = schemas.UserCreateIn.model_validate(user_data)

@@ -1,10 +1,10 @@
+from flask import g
 from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 
 from app import repos
-from app.core.db import get_db
 
 
 class RegistrationForm(FlaskForm):
@@ -35,7 +35,7 @@ class RegistrationForm(FlaskForm):
 
     @staticmethod
     def validate_username(username):
-        conn = get_db()
+        conn = g.db
         user = repos.User(conn).get_one_by_username(username.data)
 
         if user:
@@ -43,7 +43,7 @@ class RegistrationForm(FlaskForm):
 
     @staticmethod
     def validate_email(email):
-        conn = get_db()
+        conn = g.db
         user = repos.User(conn).get_one_by_email(email.data)
 
         if user:
@@ -77,7 +77,7 @@ class UpdateAccountForm(FlaskForm):
     @staticmethod
     def validate_username(username):
         if username.data != current_user.username:
-            conn = get_db()
+            conn = g.db
             user = repos.User(conn).get_one_by_username(username.data)
 
             if user:
@@ -86,7 +86,7 @@ class UpdateAccountForm(FlaskForm):
     @staticmethod
     def validate_email(email):
         if email.data != current_user.email:
-            conn = get_db()
+            conn = g.db
             user = repos.User(conn).get_one_by_email(email.data)
 
             if user:

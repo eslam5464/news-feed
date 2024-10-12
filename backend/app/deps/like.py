@@ -2,16 +2,15 @@ import ast
 from datetime import datetime, UTC
 from typing import Any
 
-from flask import jsonify
+from flask import jsonify, g
 from pydantic import ValidationError
 from starlette import status
 
 from app import repos, schemas
-from app.core.db import get_db
 
 
 def like_post(post_id: int, like_data):
-    conn = get_db()
+    conn = g.db
     post_db = repos.Post(conn).get_one(post_id)
 
     if not post_db:
@@ -41,7 +40,7 @@ def like_post(post_id: int, like_data):
 
 
 def get_all_likes(post_id: int):
-    conn = get_db()
+    conn = g.db
     post_db = repos.Post(conn).get_one(post_id)
 
     if not post_db:

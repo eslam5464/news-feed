@@ -1,12 +1,11 @@
 from datetime import UTC, datetime
 from typing import Any
 
-from flask import jsonify
+from flask import jsonify, g
 from pydantic import ValidationError
 from starlette import status
 
 from app import repos, schemas
-from app.core.db import get_db
 
 
 def create_post(post_data: Any):
@@ -15,7 +14,7 @@ def create_post(post_data: Any):
     except ValidationError as e:
         return jsonify({'error': str(e)}), status.HTTP_400_BAD_REQUEST
 
-    conn = get_db()
+    conn = g.db
     date_now = datetime.now(UTC).replace(tzinfo=None)
     post_id = repos.Post(conn).create(
         schemas.PostCreate(
@@ -29,7 +28,7 @@ def create_post(post_data: Any):
 
 
 def get_post(post_id: int):
-    conn = get_db()
+    conn = g.db
     post_db = repos.Post(conn).get_one(post_id)
 
     if post_db is None:

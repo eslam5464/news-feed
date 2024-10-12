@@ -1,9 +1,9 @@
-from flask import jsonify
+from flask import jsonify, g
 from flask_login import current_user, login_user, logout_user
 from starlette import status
 
 from app import schemas, repos
-from app.core.db import bcrypt, get_db
+from app.core.db import bcrypt
 from app.deps.user import add_user
 from app.forms.users import RegistrationForm, LoginForm
 
@@ -36,7 +36,7 @@ def login():
     form = LoginForm()
 
     if form.validate_on_submit():
-        conn = get_db()
+        conn = g.db
         user_db = repos.User(conn).get_one_by_username(form.username)
 
         if user_db and bcrypt.check_password_hash(user_db.password, form.password.data):

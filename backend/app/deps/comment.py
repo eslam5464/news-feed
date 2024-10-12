@@ -1,17 +1,16 @@
 from datetime import datetime, UTC
 from typing import Any
 
-from flask import jsonify
+from flask import jsonify, g
 from pydantic import ValidationError
 from starlette import status
 
 from app import repos, schemas
-from app.core.db import get_db
 from app.deps.post import get_post
 
 
 def get_all_comments(post_id: int):
-    conn = get_db()
+    conn = g.db
     comments_db = repos.Comment(conn).get_all_by_post_id(post_id)
 
     all_comments = [
@@ -24,7 +23,7 @@ def get_all_comments(post_id: int):
 
 
 def get_comment(comment_id: int):
-    conn = get_db()
+    conn = g.db
     comment_db = repos.Comment(conn).get_one(comment_id)
 
     if comment_db is None:
@@ -34,7 +33,7 @@ def get_comment(comment_id: int):
 
 
 def add_comment(post_id: int, comment_data: Any):
-    conn = get_db()
+    conn = g.db
     get_post(post_id)
 
     try:
@@ -54,7 +53,7 @@ def add_comment(post_id: int, comment_data: Any):
 
 
 def remove_comment(post_id: int, comment_id: int):
-    conn = get_db()
+    conn = g.db
 
     get_post(post_id)
     comment_db = get_comment(comment_id)
