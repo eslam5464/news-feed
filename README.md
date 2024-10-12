@@ -13,7 +13,7 @@ users. The backend is built using Flask and connects to a MySQL database.
 1. [Project Structure](#Project-Structure)
 1. [Prerequisites](#Prerequisites)
 2. [Installation](#Setup-Instructions)
-3. [Usage](#usage)
+3. [SQL Code](#SQL-code)
 6. [ERD schema](#ERD-schema)
 
 ## Project Structure
