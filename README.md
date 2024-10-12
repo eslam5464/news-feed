@@ -12,7 +12,7 @@ users. The backend is built using Flask and connects to a MySQL database.
 
 1. [Project Structure](#Project-Structure)
 1. [Prerequisites](#Prerequisites)
-2. [Installation](#Setup Instructions)
+2. [Installation](#Setup-Instructions)
 3. [Usage](#usage)
 6. [ERD schema](#ERD-schema)
 
@@ -59,7 +59,7 @@ users. The backend is built using Flask and connects to a MySQL database.
 
 ## SQL code
 
-- located inside the repo -> [MySql script path][sql-scipt-url]
+- located inside the repo -> [MySql script path][sql-script-url]
 
 ## ERD schema
 
@@ -83,4 +83,4 @@ users. The backend is built using Flask and connects to a MySQL database.
 
 [license-url]: https://github.com/eslam5464/news-feed/blob/master/LICENSE
 
-[sql-scipt-url]: https://github.com/eslam5464/news-feed/blob/master/backend/fixtures/db_query.sql
+[sql-script-url]: https://github.com/eslam5464/news-feed/blob/master/backend/fixtures/db_query.sql
